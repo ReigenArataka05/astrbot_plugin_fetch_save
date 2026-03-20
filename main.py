@@ -32,12 +32,11 @@ async def select(self, event: AstrMessageEvent, username: str):
 
     result = '✅ 查询成功！\n'
     result += f"用户名：{username}，UID: {uid}\n"
-    result += f'索引\t{'标题':<30}\t创建时间\t更新时间\t更新次数\t数据大小\n'
+    result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
 
     for i in range(0, 8):
         try:
             save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
-            result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
             # 添加数据验证
             if not save_data:
                 result += f'存档 {i}: 数据为空\n'
