@@ -45,14 +45,15 @@ async def select(self, event: AstrMessageEvent, username: str):
             data = json.loads(save_data)
             title = data.get('title', '空存档')
             content = data['data']
-            create_time = data.get('create_time', '')
-            update_time = data.get('update_time', '')
+            create_time = data.get('create_time', '') #创建时间
+            update_times = data.get('update_times', '') #更新次数
+            datetime = data.get('datetime', '') #更新时间
             content = decrypt_save_data(content)
 
-            result += f'{i:<4}{title:<20}{create_time:<25}{update_time:<25}{len(content):<10}\n'
+            result += f'{i:<4}{title:<38}\t{create_time}\t{datetime}{len(content)/1024}MB\n'
 
         except Exception as e:
-            result += f'{i:<4}{"空存档":<20}\n'
+            result += f'{i:<4}{"空存档":<38}\n'
             continue
 
     yield event.plain_result(result)
