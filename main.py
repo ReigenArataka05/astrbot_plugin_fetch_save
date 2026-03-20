@@ -20,8 +20,6 @@ class MyPlugin(Star):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
         pass
 
-
-
 @filter.command("select")
 async def select(self, event: AstrMessageEvent, username: str): 
     yield event.plain_result(f"查询 {username} 中，请耐心等待...")
@@ -84,4 +82,4 @@ async def download(self, event: AstrMessageEvent, index: int):
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    yield event.send(file_path)
+    yield event.file_result(file_path)
