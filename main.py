@@ -33,8 +33,9 @@ async def select(self, event: AstrMessageEvent, username: str):
     result = '✅ 查询成功！\n'
     result += f"用户名：{username} UID: {uid}\n"
     result += f'{"索引":<6}\t{"昵称":<20}\t{"创建时间":<20}  {"更新时间":<20}  {"数据大小":<10}\n'
-    
-    global selected_uid=uid
+
+    global selected_uid
+    selected_uid = uid
 
     for i in range(0, 8):
         try:
@@ -62,6 +63,5 @@ async def select(self, event: AstrMessageEvent, username: str):
             continue
     
     result+='当前UID已被记录，可对其进行<下载存档>与<分析异常>操作。'
-
     yield event.plain_result(result)
 
