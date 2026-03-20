@@ -51,10 +51,11 @@ async def select(self, event: AstrMessageEvent, username: str):
             datetime = data.get('datetime', '') #更新时间
             content = decrypt_save_data(content)
 
-            result += f'{i:<4}\t{title:<30}\t{create_time}\t{datetime}\t{round(len(content)/1024,2)}MB\n'
+        result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
+        result += f'{i:<6}\t{title:<30}\t{create_time:<20}\t{datetime:<20}\t{update_times}\t{round(len(content)/1024/1024,2)}MB\n'
 
-        except Exception as e:
-            result += f'{i:<4}\t{"空存档":<30}\n'
-            continue
+    except Exception as e:
+        result += f'{i:<6}\t{"空存档":<30}\n'
+        continue
 
     yield event.plain_result(result)
