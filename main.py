@@ -37,7 +37,7 @@ async def select(self, event: AstrMessageEvent, username: str):
     for i in range(0, 8):
         try:
             save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
-
+            result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
             # 添加数据验证
             if not save_data:
                 result += f'存档 {i}: 数据为空\n'
@@ -51,11 +51,10 @@ async def select(self, event: AstrMessageEvent, username: str):
             datetime = data.get('datetime', '') #更新时间
             content = decrypt_save_data(content)
 
-        result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
-        result += f'{i:<6}\t{title:<30}\t{create_time:<20}\t{datetime:<20}\t{update_times}\t{round(len(content)/1024/1024,2)}MB\n'
+            result += f'{i:<6}\t{title:<30}\t{create_time:<20}\t{datetime:<20}\t{update_times}\t{round(len(content)/1024/1024,2)}MB\n'
 
-    except Exception as e:
-        result += f'{i:<6}\t{"空存档":<30}\n'
-        continue
+        except Exception as e:
+            result += f'{i:<6}\t{"空存档":<30}\n'
+            continue
 
     yield event.plain_result(result)
