@@ -22,7 +22,7 @@ class MyPlugin(Star):
 
 @filter.command("select")
 async def select(self, event: AstrMessageEvent, username: str): 
-    yield event.plain_result(f"开始查询用户 {username}:")
+    yield event.plain_result(f"开始查询用户 {username},请耐心等待...")
     logger.info(f"正在查询用户: {username}")
     uid = await fetch_uid(username)
 
@@ -49,10 +49,10 @@ async def select(self, event: AstrMessageEvent, username: str):
             update_time = data.get('update_time', '')
             content = decrypt_save_data(content)
 
-            result += f'{i}\t{title}\t{create_time}\t{update_time}\t{len(content)}\n'
+            result += f'{i:<4}{title:<20}{create_time:<25}{update_time:<25}{len(content):<10}\n'
 
         except Exception as e:
-            result += f'存档 {i}: 空存档\n'
+            result += f'{i:<4}{"空存档":<20}\n'
             continue
 
     yield event.plain_result(result)
