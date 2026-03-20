@@ -43,21 +43,16 @@ async def select(self, event: AstrMessageEvent, username: str):
                 continue
                 
             data = json.loads(save_data)
-            
-            index_result = data.get('index', i)
             title = data.get('title', '空存档')
             content = data['data']
             create_time = data.get('create_time', '')
             update_time = data.get('update_time', '')
             content = decrypt_save_data(content)
 
-            result += f'{index_result}: {title} {create_time} {update_time} {len(content)}\n'
-            
-        except json.JSONDecodeError as e:
-            result += f'存档 {i}: JSON解析失败\n'
-            continue
+        result += f'{i}\t{title}\t{create_time}\t{update_time}\t{len(content)}\n'
+
         except Exception as e:
-            result += f'存档 {i}: 获取失败\n{e}'
+            result += f'存档 {i}: 空存档\n'
             continue
 
     yield event.plain_result(result)
