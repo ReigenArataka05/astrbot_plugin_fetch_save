@@ -30,19 +30,20 @@ class MyPlugin(Star):
             yield event.plain_result(f"❌ 未找到用户: {username}")
             return
 
-        result = '✅ 查询成功！\n'  # 添加换行符
+        result = '✅ 查询成功！\n'
         result += f"用户名：{username}，UID: {uid}\n"
 
-        for i in range(0, 8):  # 修复2: 确保缩进正确
-            save_data = fetch_save_data(i, uid, GAMEID, GAMEKEY) 
+        for i in range(0, 8):
+            # 添加 await
+            save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
             data = json.loads(save_data)
 
-            index_result = data.get('index',0)
+            index_result = data.get('index', 0)
             title = data.get('title', '空存档')
             content = data['data']
             create_time = data.get('create_time', '')
             update_time = data.get('update_time', '')
-            content=decrypt_save_data(content)
+            content = decrypt_save_data(content)
 
             result += f'{index_result}: {title} {create_time} {update_time} {len(content)}\n'
 
