@@ -35,7 +35,7 @@ async def select(self, event: AstrMessageEvent, username: str):
 
     for i in range(0, 8):
         try:
-            save_data = await fetch_save_data(index, uid, GAMEID, GAMEKEY)
+            save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
 
             # 添加数据验证
             if not save_data:
@@ -57,7 +57,7 @@ async def select(self, event: AstrMessageEvent, username: str):
             result += f'存档 {i}: JSON解析失败\n'
             continue
         except Exception as e:
-            result += f'存档 {i}: 获取失败\n'
+            result += f'存档 {i}: 获取失败\n{e}'
             continue
 
     yield event.plain_result(result)
