@@ -32,6 +32,7 @@ async def select(self, event: AstrMessageEvent, username: str):
 
     result = '✅ 查询成功！\n'
     result += f"用户名：{username}，UID: {uid}\n"
+    result += f'索引\t{'标题':<30}\t创建时间\t更新时间\t更新次数\t数据大小\n'
 
     for i in range(0, 8):
         try:
@@ -50,10 +51,10 @@ async def select(self, event: AstrMessageEvent, username: str):
             datetime = data.get('datetime', '') #更新时间
             content = decrypt_save_data(content)
 
-            result += f'{i:<4}{title:<38}\t{create_time}\t{datetime}{len(content)/1024}MB\n'
+            result += f'{i:<4}\t{title:<30}\t{create_time}\t{datetime}\t{round(len(content)/1024,2)}MB\n'
 
         except Exception as e:
-            result += f'{i:<4}{"空存档":<38}\n'
+            result += f'{i:<4}\t{"空存档":<30}\n'
             continue
 
     yield event.plain_result(result)
