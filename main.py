@@ -78,7 +78,7 @@ async def download(self, event: AstrMessageEvent, index: int):
     yield event.plain_result(f'正在下载存档 {index}，请耐心等待...')
 
     # 保存为文件并发送
-    file_path = f"{select_uid}_{index}.xml"
+    file_path = f"{selected_uid}_{index}.xml"
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
