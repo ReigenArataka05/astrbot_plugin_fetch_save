@@ -20,25 +20,31 @@ class MyPlugin(Star):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
         pass
 
-    @filter.command("select")
-    async def select(self, event: AstrMessageEvent, username: str): 
-        yield event.plain_result(f"开始查询用户 {username}:")
-        logger.info(f"正在查询用户: {username}")
-        uid = str(fetch_uid(username))
+@filter.command("select")
+async def select(self, event: AstrMessageEvent, username: str): 
+    yield event.plain_result(f"开始查询用户 {username}:")
+    logger.info(f"正在查询用户: {username}")
+    uid = str(fetch_uid(username))
 
-        if not uid or uid.strip() == "":
-            yield event.plain_result(f"❌ 未找到用户: {username}")
-            return
+    if not uid or uid.strip() == "":
+        yield event.plain_result(f"❌ 未找到用户: {username}")
+        return
 
-        result = '✅ 查询成功！\n'
-        result += f"用户名：{username}，UID: {uid}\n"
+    result = '✅ 查询成功！\n'
+    result += f"用户名：{username}，UID: {uid}\n"
 
-        for i in range(0, 8):
-            # 添加 await
+    for i in range(0, 8):
+        try:
             save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
+            
+            # 添加数据验证
+            if not save_data:
+                result += f'存档 {i}: 数据为空\n'
+                continue
+                
             data = json.loads(save_data)
-
-            index_result = data.get('index', 0)
+            
+            index_result = data.get('index', i)
             title = data.get('title', '空存档')
             content = data['data']
             create_time = data.get('create_time', '')
@@ -46,5 +52,12 @@ class MyPlugin(Star):
             content = decrypt_save_data(content)
 
             result += f'{index_result}: {title} {create_time} {update_time} {len(content)}\n'
+            
+        except json.JSONDecodeError as e:
+            result += f'存档 {i}: JSON解析失败\n'
+            continue
+        except Exception as e:
+            result += f'存档 {i}: 获取失败\n'
+            continue
 
-        yield event.plain_result(result)
+    yield event.plain_result(result)
