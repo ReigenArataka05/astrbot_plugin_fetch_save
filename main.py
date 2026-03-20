@@ -49,7 +49,7 @@ async def select(self, event: AstrMessageEvent, username: str):
             update_time = data.get('update_time', '')
             content = decrypt_save_data(content)
 
-        result += f'{i}\t{title}\t{create_time}\t{update_time}\t{len(content)}\n'
+            result += f'{i}\t{title}\t{create_time}\t{update_time}\t{len(content)}\n'
 
         except Exception as e:
             result += f'存档 {i}: 空存档\n'
