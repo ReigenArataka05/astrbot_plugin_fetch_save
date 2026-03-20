@@ -35,8 +35,8 @@ async def select(self, event: AstrMessageEvent, username: str):
 
     for i in range(0, 8):
         try:
-            save_data = await fetch_save_data(i, uid, GAMEID, GAMEKEY)
-            
+            save_data = await fetch_save_data(index, uid, GAMEID, GAMEKEY)
+
             # 添加数据验证
             if not save_data:
                 result += f'存档 {i}: 数据为空\n'
