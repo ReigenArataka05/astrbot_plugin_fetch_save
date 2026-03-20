@@ -32,7 +32,7 @@ async def select(self, event: AstrMessageEvent, username: str):
 
     result = '✅ 查询成功！\n'
     result += f"用户名：{username}，UID: {uid}\n"
-    result += f'{"索引":<6}\t{"标题":<30}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
+    result += f'{"索引":<6}\t{"昵称":<18}\t{"创建时间":<20}\t{"更新时间":<20}\t{"数据大小":<10}\n'
 
     for i in range(0, 8):
         try:
@@ -44,16 +44,18 @@ async def select(self, event: AstrMessageEvent, username: str):
                 
             data = json.loads(save_data)
             title = data.get('title', '空存档')
+            title = ' '.join(title.split()[:-1]) #去掉等级之类的
+
             content = data['data']
             create_time = data.get('create_time', '') #创建时间
             update_times = data.get('update_times', '') #更新次数
             datetime = data.get('datetime', '') #更新时间
             content = decrypt_save_data(content)
 
-            result += f'{i:<6}\t{title:<30}\t{create_time:<20}\t{datetime:<20}\t{update_times}\t{round(len(content)/1024/1024,2)}MB\n'
+            result += f'{i:<6}\t{title:<18}\t{create_time:<20}\t{datetime:<20}\t{update_times}\t{round(len(content)/1024/1024,2)}MB\n'
 
         except Exception as e:
-            result += f'{i:<6}\t{"空存档":<30}\n'
+            result += f'{i:<6}\t{"空存档":<18}\n'
             continue
 
     yield event.plain_result(result)
