@@ -24,7 +24,7 @@ class MyPlugin(Star):
 async def select(self, event: AstrMessageEvent, username: str): 
     yield event.plain_result(f"开始查询用户 {username}:")
     logger.info(f"正在查询用户: {username}")
-    uid = str(fetch_uid(username))
+    uid = await fetch_uid(username)
 
     if not uid or uid.strip() == "":
         yield event.plain_result(f"❌ 未找到用户: {username}")
