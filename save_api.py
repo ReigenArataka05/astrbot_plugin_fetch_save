@@ -38,16 +38,3 @@ def decrypt_save_data(compressed_data: str) -> str:
     """解密存档数据"""
     data = base64.b64decode(compressed_data)
     return zlib.decompress(data)
-
-# 使用示例
-async def main():
-    index = "1"
-    uid = await fetch_uid("ohalpha")
-    GAMEID = "100027788"
-    GAMEKEY = "34008a2844a1a569"
-    data = await fetch_save_data(index, uid, GAMEID, GAMEKEY)
-    data = json.loads(data)
-    print(decrypt_save_data(data["data"]))
-
-if __name__ == "__main__":
-    asyncio.run(main())
